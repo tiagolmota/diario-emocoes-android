@@ -1,22 +1,70 @@
 <resources>
     <string name="app_name">Diário de Emoções</string>
+
+    <!-- UI Principal -->
     <string name="hint_estado">Como se sente hoje?</string>
     <string name="hint_notas">Escreva as suas notas aqui…</string>
     <string name="btn_guardar">Guardar</string>
     <string name="btn_limpar">Limpar</string>
     <string name="btn_apagar">Apagar</string>
+    <string name="content_desc_estado">Campo de estado emocional</string>
+    <string name="content_desc_notas">Campo de notas do diário</string>
+
+    <!-- Diálogos -->
     <string name="dialog_limpar_titulo">Limpar campos</string>
     <string name="dialog_limpar_mensagem">Tem a certeza que deseja limpar os campos de texto?</string>
     <string name="dialog_apagar_titulo">Apagar Registo</string>
     <string name="dialog_apagar_mensagem">Esta ação é irreversível. Confirma que deseja apagar este registo do diário?</string>
     <string name="dialog_confirmar">Confirmar</string>
     <string name="dialog_cancelar">Cancelar</string>
+
+    <!-- Toasts -->
     <string name="toast_guardado">Registo guardado com sucesso!</string>
     <string name="toast_campos_vazios">Por favor, indique o seu estado emocional.</string>
     <string name="toast_eliminado">Registo eliminado.</string>
     <string name="toast_limpo">Campos limpos.</string>
+
+    <!-- Splash -->
     <string name="splash_nome">Diário de Emoções</string>
     <string name="splash_subtitulo">Regista. Reflete. Cresce.</string>
-    <string name="content_desc_estado">Campo de estado emocional</string>
-    <string name="content_desc_notas">Campo de notas do diário</string>
+
+    <!-- Menu ActionBar -->
+    <string name="menu_privacidade">Privacidade (RGPD)</string>
+    <string name="menu_sobre">Sobre a App</string>
+
+    <!-- Sobre -->
+    <string name="sobre_titulo">Sobre o Diário de Emoções</string>
+    <string name="sobre_mensagem">Versão 1.0\n\nDesenvolvido por Tiago Santos Mota\nMETSW — ISLA Santarém, 2025/26\n\nOs seus dados são armazenados exclusivamente no seu dispositivo e tratados em conformidade com o RGPD (Reg. UE 2016/679).\n\nDados de saúde tratados com base no consentimento explícito do titular (Art. 9.º §2.a).</string>
+
+    <!-- RGPD — Consentimento -->
+    <string name="consentimento_titulo">Privacidade e Consentimento</string>
+    <string name="consentimento_subtitulo">Regulamento (UE) 2016/679 — RGPD, Art. 7.º e 13.º</string>
+    <string name="consentimento_politica_texto">Esta aplicação regista os seus estados emocionais e notas pessoais.\n\n📋 QUE DADOS TRATAMOS\nEstados emocionais, notas de texto e data/hora dos registos. Estes dados constituem dados de saúde psicológica ao abrigo do Art. 9.º do RGPD.\n\n🎯 PARA QUE FINS\nExclusivamente para uso pessoal na aplicação. Os dados não são partilhados, vendidos ou transmitidos a terceiros.\n\n📍 ONDE SÃO ARMAZENADOS\nApenas no seu dispositivo local. Nenhum dado é enviado para servidores externos sem o seu conhecimento.\n\n⏱ DURANTE QUANTO TEMPO\nAté eliminar os registos ou desinstalar a aplicação.\n\n🔒 OS SEUS DIREITOS (Art. 15.º a 22.º RGPD)\n• Acesso — saber que dados estão armazenados\n• Eliminação — apagar todos os dados ("direito ao esquecimento")\n• Retirada do consentimento — a qualquer momento, sem penalização\n\nTodos estes direitos podem ser exercidos em Privacidade (RGPD) no menu da aplicação.</string>
+    <string name="consentimento_checkbox1">Li e compreendi a política de privacidade e consinto no tratamento dos meus dados emocionais para uso pessoal nesta aplicação.</string>
+    <string name="consentimento_checkbox2">Confirmo que tenho 16 anos ou mais (ou que tenho autorização de um titular da responsabilidade parental).</string>
+    <string name="consentimento_aceitar">Aceitar e Continuar</string>
+    <string name="consentimento_recusar">Recusar</string>
+    <string name="consentimento_nota_legal">Ao recusar, a aplicação será encerrada. Pode instalar a aplicação novamente para rever esta decisão.</string>
+
+    <!-- RGPD — Painel de Privacidade -->
+    <string name="privacidade_titulo">Os Seus Direitos de Privacidade</string>
+    <string name="privacidade_info_dados">A aplicação armazena localmente no seu dispositivo:\n\n• Estado emocional (texto)\n• Notas pessoais (texto)\n• Data e hora do registo\n\nNenhum dado é transmitido para servidores externos. Os dados de saúde psicológica são tratados com base no seu consentimento explícito (RGPD Art. 9.º §2.a).</string>
+    <string name="privacidade_data_consentimento">Consentimento registado em: %1$s</string>
+    <string name="privacidade_apagar_btn">Apagar Todos os Meus Dados</string>
+    <string name="privacidade_apagar_desc">Art. 17.º RGPD — Direito de Eliminação ("Direito ao Esquecimento"). Remove permanentemente todos os registos do seu diário.</string>
+    <string name="privacidade_retirar_btn">Retirar Consentimento</string>
+    <string name="privacidade_retirar_desc">Art. 7.º §3 RGPD — Pode retirar o consentimento a qualquer momento. Os dados serão eliminados e a aplicação reiniciada.</string>
+
+    <!-- Diálogos de Eliminação -->
+    <string name="privacidade_apagar_titulo">Apagar Todos os Dados</string>
+    <string name="privacidade_apagar_mensagem">Vai apagar permanentemente todos os registos do seu diário. Esta ação é irreversível. Deseja continuar?</string>
+    <string name="privacidade_apagar_titulo2">Confirmação Final</string>
+    <string name="privacidade_apagar_mensagem2">Tem a certeza absoluta? Todos os registos serão eliminados e não podem ser recuperados.</string>
+    <string name="privacidade_apagar_confirmar">Apagar</string>
+    <string name="privacidade_apagar_definitivo">Apagar Definitivamente</string>
+    <string name="privacidade_dados_eliminados">Todos os dados foram eliminados com sucesso.</string>
+    <string name="privacidade_retirar_titulo">Retirar Consentimento</string>
+    <string name="privacidade_retirar_mensagem">Ao retirar o consentimento, todos os seus dados serão eliminados e a aplicação será reiniciada no ecrã de consentimento. Deseja continuar?</string>
+    <string name="privacidade_retirar_confirmar">Retirar e Eliminar Dados</string>
+    <string name="privacidade_consentimento_retirado">Consentimento retirado. Dados eliminados.</string>
 </resources>

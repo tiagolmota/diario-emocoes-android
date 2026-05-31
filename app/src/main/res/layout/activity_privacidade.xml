@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/textViewTituloPrivacidade"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/privacidade_titulo"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Secção: Informação sobre dados tratados (Art. 13.º) -->
+        <TextView
+            android:id="@+id/textViewInfoDados"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/privacidade_info_dados"
+            android:textSize="14sp"
+            android:textColor="@color/textPrimary"
+            android:lineSpacingMultiplier="1.4"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/textViewTituloPrivacidade"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Data de consentimento (Art. 15.º - direito de acesso) -->
+        <TextView
+            android:id="@+id/textViewDataConsentimento"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/textSecondary"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/white"
+            android:padding="12dp"
+            app:layout_constraintTop_toBottomOf="@id/textViewInfoDados"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Botão: Apagar todos os dados (Art. 17.º) -->
+        <Button
+            android:id="@+id/buttonApagarTodosDados"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/privacidade_apagar_btn"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/colorDanger"
+            app:layout_constraintTop_toBottomOf="@id/textViewDataConsentimento"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewApagarDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/privacidade_apagar_desc"
+            android:textSize="12sp"
+            android:textColor="@color/textSecondary"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/buttonApagarTodosDados"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Botão: Retirar consentimento (Art. 7.º §3) -->
+        <Button
+            android:id="@+id/buttonRetirarConsentimento"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/privacidade_retirar_btn"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintTop_toBottomOf="@id/textViewApagarDesc"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewRetirarDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/privacidade_retirar_desc"
+            android:textSize="12sp"
+            android:textColor="@color/textSecondary"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintTop_toBottomOf="@id/buttonRetirarConsentimento"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

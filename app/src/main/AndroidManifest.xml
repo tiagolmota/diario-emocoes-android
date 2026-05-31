@@ -3,16 +3,18 @@
     package="pt.isla.diarioemocoes">
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DiarioEmocoes">
+        android:theme="@style/Theme.DiarioEmocoes"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:fullBackupContent="false">
 
         <!--
-            SplashActivity: ponto de entrada da app (LAUNCHER).
-            Usa tema próprio sem ActionBar para ecrã de arranque limpo.
+            SplashActivity: ponto de entrada — verifica consentimento RGPD
+            e redireciona para ConsentimentoActivity ou MainActivity.
         -->
         <activity
             android:name=".ui.SplashActivity"
@@ -25,14 +27,31 @@
             </intent-filter>
         </activity>
 
-        <!--
-            MainActivity: iniciada programaticamente a partir do SplashActivity.
-            Herda o tema principal com ActionBar visível.
-        -->
+        <!-- MainActivity: actividade principal da app -->
         <activity
             android:name=".ui.MainActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <!--
+            ConsentimentoActivity: ecrã RGPD obrigatório no primeiro arranque.
+            Não pode ser iniciada externamente (exported="false").
+        -->
+        <activity
+            android:name=".rgpd.ConsentimentoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.DiarioEmocoes" />
+
+        <!--
+            PrivacidadeActivity: painel de direitos RGPD (Art. 15.º, 17.º, 7.º §3).
+            Acessível via menu da ActionBar.
+        -->
+        <activity
+            android:name=".rgpd.PrivacidadeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="@string/privacidade_titulo" />
 
     </application>
 

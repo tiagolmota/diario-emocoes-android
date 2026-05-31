@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    MENU DA ACTION BAR: menu_main.xml
+
+    Dois itens:
+    1. Privacidade — acesso ao painel RGPD (Art. 15.º, 17.º, 7.º §3)
+    2. Sobre — informação sobre a app e política de privacidade resumida
+
+    showAsAction="never" → ambos no overflow menu (três pontos)
+    Mantém a ActionBar limpa sem sobrecarregar o topo do ecrã.
+-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_privacidade"
+        android:title="@string/menu_privacidade"
+        android:icon="@android:drawable/ic_lock_lock"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_sobre"
+        android:title="@string/menu_sobre"
+        android:orderInCategory="200"
+        app:showAsAction="never" />
+
+</menu>

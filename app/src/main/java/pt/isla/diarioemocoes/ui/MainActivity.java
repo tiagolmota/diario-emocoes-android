@@ -1,11 +1,15 @@
 package pt.isla.diarioemocoes.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,12 +17,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import pt.isla.diarioemocoes.R;
+import pt.isla.diarioemocoes.rgpd.PrivacidadeActivity;
+import pt.isla.diarioemocoes.security.ValidadorDados;
 
 /**
  * ACTIVITY PRINCIPAL: MainActivity
  *
- * Passo 1: AppCompatActivity fornece a ActionBar automaticamente
- * via o tema Theme.DiarioEmocoes — requisito obrigatório do enunciado.
+ * Boas práticas implementadas:
+ * - Action Bar com menu (Privacidade + Sobre) — requisito do enunciado
+ * - Validação de input via ValidadorDados antes de passar ao ViewModel
+ * - Contagem de registos observada para feedback ao utilizador
+ * - Mensagens de erro específicas da validação em vez de genéricas
+ * - Acessibilidade: contentDescription em todos os elementos interactivos
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -30,72 +40,117 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Passo 2: Inflar o layout definido em res/layout/activity_main.xml
         setContentView(R.layout.activity_main);
 
-        // Passo 3: Ligar variáveis Java aos elementos XML pelo ID
         editTextEstado = findViewById(R.id.editTextEstado);
         editTextNotas  = findViewById(R.id.editTextNotas);
         Button buttonGuardar = findViewById(R.id.buttonGuardar);
         Button buttonLimpar  = findViewById(R.id.buttonLimpar);
         RecyclerView recyclerView = findViewById(R.id.recyclerViewRegistos);
 
-        // Passo 4: Configurar RecyclerView com adapter e layout manager
         adapter = new RegistoAdapter(id -> mostrarDialogoConfirmacaoApagar(id));
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Passo 5: Instanciar ViewModel via ViewModelProvider (forma correcta — sem new)
         viewModel = new ViewModelProvider(this).get(RegistoEmocaoViewModel.class);
-
-        // Passo 6: Observar LiveData — a UI actualiza-se automaticamente quando os dados mudam
         viewModel.todosOsRegistos.observe(this, registos -> adapter.submitList(registos));
 
-        // =====================================================================
-        // Passo 7: BOTÃO GUARDAR com validação + Toast (requisito do enunciado)
-        // =====================================================================
-        buttonGuardar.setOnClickListener(v -> {
-            String estado = editTextEstado.getText().toString().trim();
-            String notas  = editTextNotas.getText().toString().trim();
-
-            if (TextUtils.isEmpty(estado)) {
-                Toast.makeText(this, R.string.toast_campos_vazios, Toast.LENGTH_SHORT).show();
-                return;
+        // Observar total de registos para título dinâmico da ActionBar
+        viewModel.totalRegistos.observe(this, total -> {
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setSubtitle(
+                        total != null && total > 0
+                                ? total + " registo(s) armazenado(s)"
+                                : "Sem registos"
+                );
             }
-
-            viewModel.guardarRegisto(estado, notas, 0.0);
-            Toast.makeText(this, R.string.toast_guardado, Toast.LENGTH_SHORT).show();
-            editTextEstado.setText("");
-            editTextNotas.setText("");
         });
 
         // =====================================================================
-        // Passo 8: BOTÃO LIMPAR com AlertDialog (requisito do enunciado)
-        // Acção destrutiva requer confirmação explícita — boas práticas de UX
+        // BOTÃO GUARDAR — validação via ValidadorDados antes de persistir
         // =====================================================================
-        buttonLimpar.setOnClickListener(v -> {
+        buttonGuardar.setOnClickListener(v -> {
+            String estado = editTextEstado.getText().toString();
+            String notas  = editTextNotas.getText().toString();
+
+            // Validar estado
+            ValidadorDados.ResultadoValidacao vEstado = ValidadorDados.validarEstado(estado);
+            if (!vEstado.valido) {
+                Toast.makeText(this, vEstado.mensagemErro, Toast.LENGTH_SHORT).show();
+                editTextEstado.requestFocus();
+                return;
+            }
+
+            // Validar notas
+            ValidadorDados.ResultadoValidacao vNotas = ValidadorDados.validarNotas(notas);
+            if (!vNotas.valido) {
+                Toast.makeText(this, vNotas.mensagemErro, Toast.LENGTH_SHORT).show();
+                editTextNotas.requestFocus();
+                return;
+            }
+
+            boolean guardou = viewModel.guardarRegisto(estado, notas, 0.0);
+            if (guardou) {
+                Toast.makeText(this, R.string.toast_guardado, Toast.LENGTH_SHORT).show();
+                editTextEstado.setText("");
+                editTextNotas.setText("");
+            }
+        });
+
+        // =====================================================================
+        // BOTÃO LIMPAR com AlertDialog
+        // =====================================================================
+        buttonLimpar.setOnClickListener(v ->
             new AlertDialog.Builder(this)
                     .setTitle(R.string.dialog_limpar_titulo)
                     .setMessage(R.string.dialog_limpar_mensagem)
-                    .setPositiveButton(R.string.dialog_confirmar, (dialog, which) -> {
+                    .setPositiveButton(R.string.dialog_confirmar, (d, w) -> {
                         editTextEstado.setText("");
                         editTextNotas.setText("");
                         Toast.makeText(this, R.string.toast_limpo, Toast.LENGTH_SHORT).show();
                     })
                     .setNegativeButton(R.string.dialog_cancelar, null)
-                    .show();
-        });
+                    .show()
+        );
     }
 
-    /**
-     * Passo 9: AlertDialog de confirmação antes de apagar um registo.
-     * Chamado pelo RegistoAdapter via callback OnApagarClickListener.
-     */
+    // =========================================================================
+    // ACTION BAR — Menu com Privacidade e Sobre (requisito do enunciado)
+    // =========================================================================
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_privacidade) {
+            startActivity(new Intent(this, PrivacidadeActivity.class));
+            return true;
+        }
+        if (id == R.id.action_sobre) {
+            mostrarDialogoSobre();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void mostrarDialogoSobre() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.sobre_titulo)
+                .setMessage(R.string.sobre_mensagem)
+                .setPositiveButton(R.string.dialog_cancelar, null)
+                .show();
+    }
+
     private void mostrarDialogoConfirmacaoApagar(long id) {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.dialog_apagar_titulo)
                 .setMessage(R.string.dialog_apagar_mensagem)
-                .setPositiveButton(R.string.dialog_confirmar, (dialog, which) -> {
+                .setPositiveButton(R.string.dialog_confirmar, (d, w) -> {
                     viewModel.apagarRegisto(id);
                     Toast.makeText(this, R.string.toast_eliminado, Toast.LENGTH_SHORT).show();
                 })

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <!-- Título RGPD -->
+        <TextView
+            android:id="@+id/textViewTituloConsentimento"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/consentimento_titulo"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Subtítulo RGPD Art. 13.º -->
+        <TextView
+            android:id="@+id/textViewSubtituloConsentimento"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/consentimento_subtitulo"
+            android:textSize="13sp"
+            android:textColor="@color/textSecondary"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/textViewTituloConsentimento"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Texto da política de privacidade -->
+        <TextView
+            android:id="@+id/textViewPolitica"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/consentimento_politica_texto"
+            android:textSize="14sp"
+            android:textColor="@color/textPrimary"
+            android:lineSpacingMultiplier="1.4"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/textViewSubtituloConsentimento"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Checkbox 1: Consentimento principal -->
+        <CheckBox
+            android:id="@+id/checkBoxConsentimento"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/consentimento_checkbox1"
+            android:textSize="14sp"
+            android:textColor="@color/textPrimary"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/textViewPolitica"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Checkbox 2: Confirmação de maioridade -->
+        <CheckBox
+            android:id="@+id/checkBoxMaiores"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/consentimento_checkbox2"
+            android:textSize="14sp"
+            android:textColor="@color/textPrimary"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxConsentimento"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Botão Aceitar (desactivado até checkboxes marcadas) -->
+        <Button
+            android:id="@+id/buttonAceitar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/consentimento_aceitar"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="4dp"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxMaiores"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonRecusar"
+            app:layout_constraintHorizontal_chainStyle="spread" />
+
+        <!-- Botão Recusar -->
+        <Button
+            android:id="@+id/buttonRecusar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/consentimento_recusar"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="4dp"
+            android:backgroundTint="@color/colorDanger"
+            app:layout_constraintTop_toBottomOf="@id/checkBoxMaiores"
+            app:layout_constraintStart_toEndOf="@id/buttonAceitar"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Nota legal RGPD -->
+        <TextView
+            android:id="@+id/textViewNotaLegal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/consentimento_nota_legal"
+            android:textSize="11sp"
+            android:textColor="@color/textSecondary"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintTop_toBottomOf="@id/buttonAceitar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

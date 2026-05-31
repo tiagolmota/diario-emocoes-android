@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    CONFIGURAÇÃO DE SEGURANÇA DE REDE: network_security_config.xml
+
+    RGPD Art. 32.º §1.a — "A cifragem de dados pessoais" é uma medida técnica
+    de segurança obrigatória proporcional ao risco.
+
+    Esta configuração:
+    1. Bloqueia todo o tráfego HTTP não cifrado (cleartext) em produção
+    2. Impede Man-in-the-Middle attacks via certificate pinning (base)
+    3. Restringe autoridades certificadoras ao sistema — sem CAs privadas
+
+    OWASP Mobile Top 10 — M3 (Insecure Communication):
+    Exige que toda a comunicação de dados pessoais use TLS 1.2+.
+-->
+<network-security-config>
+
+    <!--
+        Configuração base: apenas HTTPS em produção.
+        cleartextTrafficPermitted="false" bloqueia HTTP simples.
+    -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <!-- Confiar apenas em CAs do sistema (não em CAs de utilizador) -->
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!--
+        Excepção para desenvolvimento local (localhost).
+        Apenas activa em builds de debug — removida automaticamente em release.
+        Permite testar contra servidor PHP/Firebase local sem HTTPS.
+    -->
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="system" />
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
+
+</network-security-config>

@@ -7,70 +7,73 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import pt.isla.diarioemocoes.security.ValidadorDados;
+
 /**
  * REPOSITÓRIO: RegistoEmocaoRepository
  *
- * Passo 1: O padrão Repository é a "camada de mediação" entre o ViewModel
- * e as fontes de dados (Room local, Firebase remoto, API REST).
- * O ViewModel não conhece de onde vêm os dados — apenas consome o repositório.
- * Esta abstração é o que torna o código testável e escalável.
- *
- * DIFERENÇA JAVA vs KOTLIN:
- * Em Kotlin, as operações de escrita usam 'suspend' + coroutines.
- * Em Java, o mecanismo equivalente é um ExecutorService — um pool de threads
- * gerido pelo sistema operativo Android para operações de I/O em segundo plano.
+ * Actualizado com:
+ * - Validação de dados antes de persistir (OWASP + RGPD Art. 5.º §1.d)
+ * - Sanitização de input (segurança)
+ * - apagarTodosOsRegistos() para RGPD Art. 17.º
+ * - contarRegistos() para painel de privacidade Art. 15.º
  */
 public class RegistoEmocaoRepository {
 
     private final RegistoEmocaoDao registoDao;
     private final LiveData<List<RegistoEmocao>> todosOsRegistos;
+    private final LiveData<Integer> totalRegistos;
 
-    /**
-     * Passo 2: ExecutorService com thread única.
-     * 'newSingleThreadExecutor()' garante que as escritas na base de dados
-     * são serializadas (uma de cada vez), prevenindo conflitos de concorrência
-     * sem a complexidade de um pool multi-thread.
-     */
     private static final ExecutorService databaseWriteExecutor =
             Executors.newSingleThreadExecutor();
 
-    /**
-     * Passo 3: Construtor — inicializa o DAO a partir da AppDatabase Singleton.
-     * Ao receber Application (e não Context de Activity), garantimos
-     * que o repositório sobrevive a rotações de ecrã sem fugas de memória.
-     */
     public RegistoEmocaoRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
-        registoDao = db.registoDao();
-        // O LiveData é obtido uma vez e o Room mantém-no atualizado automaticamente
+        registoDao      = db.registoDao();
         todosOsRegistos = registoDao.obterTodosOsRegistos();
+        totalRegistos   = registoDao.contarRegistos();
     }
 
-    /**
-     * Passo 4: Exposição do LiveData para o ViewModel.
-     * O ViewModel observa este objeto; qualquer alteração na tabela
-     * propaga-se até à UI sem intervenção manual do programador.
-     */
     public LiveData<List<RegistoEmocao>> getTodosOsRegistos() {
         return todosOsRegistos;
     }
 
-    /**
-     * Passo 5: Operação de INSERT em thread de background.
-     * O lambda 'databaseWriteExecutor.execute(() -> ...)' executa o código
-     * dentro dos parênteses numa thread separada — equivalente funcional
-     * do 'viewModelScope.launch { }' do Kotlin.
-     */
-    public void inserir(RegistoEmocao registo) {
-        databaseWriteExecutor.execute(() -> registoDao.inserirRegisto(registo));
+    public LiveData<Integer> getTotalRegistos() {
+        return totalRegistos;
     }
 
     /**
-     * Passo 6: Operação de DELETE em thread de background.
-     * Idêntico ao padrão de inserção — nunca bloqueamos a Main Thread
-     * com operações de I/O, pois isso causaria ANR (App Not Responding).
+     * Passo 1: Inserção com validação e sanitização prévia.
+     * RGPD Art. 5.º §1.d — exactidão: só armazenar dados válidos.
+     * Retorna false se a validação falhar, true se inseriu com sucesso.
      */
+    public boolean inserir(RegistoEmocao registo) {
+        // Sanitizar antes de validar
+        String estadoSanitizado = ValidadorDados.sanitizar(registo.getEstadoEmocional());
+        String notasSanitizadas = ValidadorDados.sanitizar(registo.getNotasTexto());
+
+        ValidadorDados.ResultadoValidacao vEstado = ValidadorDados.validarEstado(estadoSanitizado);
+        ValidadorDados.ResultadoValidacao vNotas  = ValidadorDados.validarNotas(notasSanitizadas);
+
+        if (!vEstado.valido || !vNotas.valido) return false;
+
+        // Actualizar com valores sanitizados antes de persistir
+        registo.setEstadoEmocional(estadoSanitizado);
+        registo.setNotasTexto(notasSanitizadas);
+
+        databaseWriteExecutor.execute(() -> registoDao.inserirRegisto(registo));
+        return true;
+    }
+
     public void apagar(long id) {
         databaseWriteExecutor.execute(() -> registoDao.apagarRegistoPorId(id));
+    }
+
+    /**
+     * Passo 2: Eliminação total — RGPD Art. 17.º.
+     * Executado em background thread; a UI observa via LiveData.
+     */
+    public void apagarTudo() {
+        databaseWriteExecutor.execute(() -> registoDao.apagarTodosOsRegistos());
     }
 }
