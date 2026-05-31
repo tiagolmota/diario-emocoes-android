@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    MANIFESTO: AndroidManifest.xml
+
+    O manifesto é o "passaporte" da aplicação — declara ao sistema Android
+    todos os componentes existentes (Activities, Services, Receivers)
+    e as permissões que a app necessita para funcionar.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="pt.isla.diarioemocoes">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DiarioEmocoes">
+
+        <!--
+            SplashActivity como LAUNCHER:
+            A intent-filter com MAIN + LAUNCHER define esta Activity como
+            o ponto de entrada da aplicação — o que o utilizador vê
+            ao tocar no ícone no launcher do Android.
+        -->
+        <activity
+            android:name=".ui.SplashActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+            MainActivity: declarada mas SEM intent-filter LAUNCHER.
+            É iniciada programaticamente a partir do SplashActivity.
+        -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+    </application>
+
+</manifest>

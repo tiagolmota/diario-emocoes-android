@@ -1,0 +1,81 @@
+# ============================================================================
+# .gitignore — Projeto Android (Java) | Diário de Emoções
+# Gerado para Android Studio Hedgehog / Iguana (2023-2024)
+# ============================================================================
+
+# ---------------------------------------------------------------------------
+# FICHEIROS DE BUILD — Nunca versionados (gerados automaticamente pelo Gradle)
+# ---------------------------------------------------------------------------
+*.iml
+.gradle/
+local.properties
+.idea/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/assetWizardSettings.xml
+.idea/dictionaries
+.idea/libraries
+.idea/caches
+.idea/modules.xml
+.idea/*.xml
+.idea/navEditor.xml
+
+# ---------------------------------------------------------------------------
+# OUTPUTS DE COMPILAÇÃO
+# ---------------------------------------------------------------------------
+build/
+*/build/
+out/
+
+# ---------------------------------------------------------------------------
+# ANDROID STUDIO ESPECÍFICO
+# ---------------------------------------------------------------------------
+*.apk
+*.ap_
+*.aab
+*.dex
+
+# Ficheiros de log
+*.log
+
+# Pasta de testes gerados
+gen/
+
+# Keystore de assinatura — NUNCA versionado (contém chaves privadas)
+*.keystore
+*.jks
+
+# ---------------------------------------------------------------------------
+# GOOGLE SERVICES — Firebase config (contém chaves de API)
+# Substituir por variável de ambiente em CI/CD
+# ---------------------------------------------------------------------------
+google-services.json
+
+# ---------------------------------------------------------------------------
+# GRADLE WRAPPER — Manter o wrapper, ignorar cache
+# ---------------------------------------------------------------------------
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# ---------------------------------------------------------------------------
+# MACOS / WINDOWS / LINUX — Ficheiros do sistema operativo
+# ---------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ---------------------------------------------------------------------------
+# ROOM — Schema exportado (opcional versionar; aqui ignoramos para protótipo)
+# ---------------------------------------------------------------------------
+app/schemas/
+
+# ---------------------------------------------------------------------------
+# PROGUARD — Mapeamentos de obfuscação (gerados em builds de release)
+# ---------------------------------------------------------------------------
+app/proguard-mapping.txt

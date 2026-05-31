@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    LAYOUT: item_registo.xml
+
+    CardView como contentor de cada item da lista.
+    Fornece elevação (sombra), cantos arredondados e fundo branco
+    seguindo as Material Design Guidelines para listas de conteúdo.
+    cardElevation="4dp" cria profundidade visual sem ser intrusiva.
+-->
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:tools="http://tools.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <!-- Estado Emocional: destaque visual como título do item -->
+        <TextView
+            android:id="@+id/textViewEstado"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#1A1A2E"
+            tools:text="Motivado"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonApagarItem" />
+
+        <!-- Data/Hora: subtítulo em tom mais suave -->
+        <TextView
+            android:id="@+id/textViewData"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#6B6B6B"
+            tools:text="31/05/2026 14:30"
+            app:layout_constraintTop_toBottomOf="@id/textViewEstado"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonApagarItem"
+            android:layout_marginTop="2dp" />
+
+        <!-- Notas: corpo de texto do registo -->
+        <TextView
+            android:id="@+id/textViewNotas"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:maxLines="3"
+            android:ellipsize="end"
+            tools:text="Senti-me bem disposto hoje. Consegui terminar as tarefas planeadas."
+            app:layout_constraintTop_toBottomOf="@id/textViewData"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonApagarItem"
+            android:layout_marginTop="6dp" />
+
+        <!-- Botão Apagar: posicionado à direita, centrado verticalmente -->
+        <Button
+            android:id="@+id/buttonApagarItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apagar"
+            android:textSize="12sp"
+            android:backgroundTint="#FF5722"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
