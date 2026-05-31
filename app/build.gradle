@@ -1,16 +1,13 @@
 // build.gradle (Module: app)
 // ============================================================================
-// DEPENDÊNCIAS DO PROJETO — VERSÃO JAVA
-//
-// Todas as versões aqui declaradas são as estáveis disponíveis em Maio 2026.
-// Verificar atualizações em: https://developer.android.com/jetpack/androidx/releases
+// DEPENDÊNCIAS DO PROJECTO — VERSÃO JAVA PURA
+// Todas as versões são estáveis verificadas em Maio 2026.
 // ============================================================================
 
 plugins {
     id 'com.android.application'
-    // NOTA: Sem o plugin 'kotlin-android' — este é um projeto Java puro.
-    // O plugin 'kotlin-kapt' também não é necessário;
-    // usamos 'annotationProcessor' nativo do Java para o Room.
+    // Sem 'kotlin-android' — projecto Java puro.
+    // Sem 'kotlin-kapt' — usamos 'annotationProcessor' nativo para o Room.
 }
 
 android {
@@ -19,10 +16,12 @@ android {
 
     defaultConfig {
         applicationId "pt.isla.diarioemocoes"
-        minSdk 24          // Android 7.0 — cobre ~95% dos dispositivos ativos
+        minSdk 24          // Android 7.0 — cobre ~95% dos dispositivos activos
         targetSdk 34       // Android 14
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -33,18 +32,18 @@ android {
     }
 
     compileOptions {
-        // Java 8 é necessário para lambdas (usados no adapter e nos listeners)
+        // Java 8 obrigatório para lambdas (usados no adapter e listeners)
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
+
     // -------------------------------------------------------------------------
-    // ROOM: Biblioteca de Persistência Local
-    // room-runtime: componentes de execução (RoomDatabase, Dao, Entity)
-    // room-compiler: processador de anotações — gera o código SQL em compilação
-    // NOTA JAVA: usa 'annotationProcessor' em vez de 'kapt' (que é Kotlin-only)
+    // ROOM: Persistência Local (ORM sobre SQLite)
+    // room-runtime: componentes de execução
+    // room-compiler: gera código SQL em tempo de compilação (annotationProcessor, não kapt)
     // -------------------------------------------------------------------------
     def room_version = "2.6.1"
     implementation "androidx.room:room-runtime:$room_version"
@@ -52,9 +51,6 @@ dependencies {
 
     // -------------------------------------------------------------------------
     // LIFECYCLE: ViewModel e LiveData
-    // lifecycle-viewmodel: classe AndroidViewModel e ViewModelProvider
-    // lifecycle-livedata: LiveData e MutableLiveData
-    // lifecycle-common-java8: lambda support para LifecycleObserver
     // -------------------------------------------------------------------------
     def lifecycle_version = "2.7.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
@@ -63,17 +59,17 @@ dependencies {
 
     // -------------------------------------------------------------------------
     // UI COMPONENTS
-    // recyclerview: lista eficiente com reciclagem de vistas
-    // cardview: contentor com elevação e cantos arredondados para os itens
-    // constraintlayout: layout responsivo e plano
     // -------------------------------------------------------------------------
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-
-    // AppCompat: ActionBar e temas Material compatíveis com Android antigo
     implementation 'androidx.appcompat:appcompat:1.6.1'
-
-    // Material Design Components: estilos dos botões e campos de texto
     implementation 'com.google.android.material:material:1.11.0'
+
+    // -------------------------------------------------------------------------
+    // TESTES
+    // -------------------------------------------------------------------------
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

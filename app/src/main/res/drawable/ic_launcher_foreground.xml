@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Fundo do ícone adaptável -->
+    <path
+        android:fillColor="#1A1A2E"
+        android:pathData="M0,0h108v108h-108z" />
+
+    <!-- Corpo do livro/diário -->
+    <path
+        android:fillColor="#E94560"
+        android:pathData="M30,25 L78,25 Q82,25 82,29 L82,79 Q82,83 78,83 L30,83 Q26,83 26,79 L26,29 Q26,25 30,25 Z" />
+
+    <!-- Lombada do livro -->
+    <path
+        android:fillColor="#C73652"
+        android:pathData="M26,25 L34,25 L34,83 L26,83 Z" />
+
+    <!-- Linhas de texto no diário -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.9"
+        android:pathData="M40,42 L72,42 Q73,42 73,43.5 Q73,45 72,45 L40,45 Q39,45 39,43.5 Q39,42 40,42 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.9"
+        android:pathData="M40,51 L72,51 Q73,51 73,52.5 Q73,54 72,54 L40,54 Q39,54 39,52.5 Q39,51 40,51 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.9"
+        android:pathData="M40,60 L65,60 Q66,60 66,61.5 Q66,63 65,63 L40,63 Q39,63 39,61.5 Q39,60 40,60 Z" />
+
+    <!-- Coração (símbolo emocional) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,72 C54,72 44,65 44,59 C44,56 46.5,54 49.5,54 C51.5,54 53.5,55.5 54,57 C54.5,55.5 56.5,54 58.5,54 C61.5,54 64,56 64,59 C64,65 54,72 54,72 Z" />
+
+</vector>

@@ -1,6 +1,6 @@
 # 📱 Diário de Emoções com Contexto Ambiental
 
-> Aplicação Android nativa desenvolvida em **Java** no âmbito do trabalho de grupo da Unidade Curricular de **Desenvolvimento de Aplicações Móveis** — Mestrado em Engenharia de Tecnologias e Sistemas Web (METSW), ISLA Santarém, 2025/2026.
+> Aplicação Android nativa desenvolvida em **Java** no âmbito do trabalho prático individual da Unidade Curricular de **Desenvolvimento de Aplicações Móveis** — Mestrado em Engenharia de Tecnologias e Sistemas Web (METSW), ISLA Santarém, 2025/2026.
 
 ---
 
@@ -168,13 +168,11 @@ Em conformidade com o artigo 3.º do Guião de Procedimentos de IA Generativa ad
 
 ---
 
-## 👨‍💻 Autores
+## 👨‍💻 Autor
 
-| Nome | Número | Contribuição |
-|------|--------|--------------|
-| [Tiago Santos Mota] | [Nº Aluno] | Arquitetura de dados, camada MVVM, documentação |
-| [Elemento 2] | [Nº Aluno] | [Área] |
-| [Elemento 3] | [Nº Aluno] | [Área] |
+| Nome | Número | Curso |
+|------|--------|-------|
+| Tiago Santos Mota | [Nº Aluno] | METSW — Engenharia de Tecnologias e Sistemas Web |
 
 ---
 

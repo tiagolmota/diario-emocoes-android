@@ -1,0 +1,38 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+        TEMA PRINCIPAL: Theme.DiarioEmocoes
+        Herda de Theme.MaterialComponents.DayNight.DarkActionBar
+        para garantir compatibilidade com a ActionBar nativa do Android
+        (requisito obrigatório do enunciado do Prof. Marco Tereso).
+
+        DarkActionBar: texto da ActionBar a branco sobre fundo escuro —
+        visualmente consistente com a paleta colorPrimary (#1A1A2E).
+    -->
+    <style name="Theme.DiarioEmocoes" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorOnSurface">@color/colorOnSurface</item>
+    </style>
+
+    <!--
+        TEMA DO SPLASH SCREEN
+        Sem ActionBar (fullscreen limpo) para o ecrã de arranque.
+        Substituído automaticamente pelo tema principal quando a
+        MainActivity é iniciada pelo SplashActivity.
+    -->
+    <style name="Theme.DiarioEmocoes.Splash" parent="Theme.DiarioEmocoes">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/splashBackground</item>
+        <item name="android:statusBarColor">@color/splashBackground</item>
+        <item name="android:navigationBarColor">@color/splashBackground</item>
+    </style>
+
+</resources>

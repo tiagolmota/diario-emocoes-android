@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    MANIFESTO: AndroidManifest.xml
-
-    O manifesto é o "passaporte" da aplicação — declara ao sistema Android
-    todos os componentes existentes (Activities, Services, Receivers)
-    e as permissões que a app necessita para funcionar.
--->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pt.isla.diarioemocoes">
 
@@ -18,14 +11,13 @@
         android:theme="@style/Theme.DiarioEmocoes">
 
         <!--
-            SplashActivity como LAUNCHER:
-            A intent-filter com MAIN + LAUNCHER define esta Activity como
-            o ponto de entrada da aplicação — o que o utilizador vê
-            ao tocar no ícone no launcher do Android.
+            SplashActivity: ponto de entrada da app (LAUNCHER).
+            Usa tema próprio sem ActionBar para ecrã de arranque limpo.
         -->
         <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
+            android:theme="@style/Theme.DiarioEmocoes.Splash"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,8 +26,8 @@
         </activity>
 
         <!--
-            MainActivity: declarada mas SEM intent-filter LAUNCHER.
-            É iniciada programaticamente a partir do SplashActivity.
+            MainActivity: iniciada programaticamente a partir do SplashActivity.
+            Herda o tema principal com ActionBar visível.
         -->
         <activity
             android:name=".ui.MainActivity"

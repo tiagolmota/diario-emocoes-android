@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Diário de Emoções</string>
+    <string name="hint_estado">Como se sente hoje?</string>
+    <string name="hint_notas">Escreva as suas notas aqui…</string>
+    <string name="btn_guardar">Guardar</string>
+    <string name="btn_limpar">Limpar</string>
+    <string name="btn_apagar">Apagar</string>
+    <string name="dialog_limpar_titulo">Limpar campos</string>
+    <string name="dialog_limpar_mensagem">Tem a certeza que deseja limpar os campos de texto?</string>
+    <string name="dialog_apagar_titulo">Apagar Registo</string>
+    <string name="dialog_apagar_mensagem">Esta ação é irreversível. Confirma que deseja apagar este registo do diário?</string>
+    <string name="dialog_confirmar">Confirmar</string>
+    <string name="dialog_cancelar">Cancelar</string>
+    <string name="toast_guardado">Registo guardado com sucesso!</string>
+    <string name="toast_campos_vazios">Por favor, indique o seu estado emocional.</string>
+    <string name="toast_eliminado">Registo eliminado.</string>
+    <string name="toast_limpo">Campos limpos.</string>
+    <string name="splash_nome">Diário de Emoções</string>
+    <string name="splash_subtitulo">Regista. Reflete. Cresce.</string>
+    <string name="content_desc_estado">Campo de estado emocional</string>
+    <string name="content_desc_notas">Campo de notas do diário</string>
+</resources>

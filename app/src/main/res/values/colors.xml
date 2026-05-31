@@ -1,0 +1,30 @@
+<resources>
+    <!-- Cores primárias -->
+    <color name="colorPrimary">#1A1A2E</color>
+    <color name="colorPrimaryVariant">#16213E</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+
+    <!-- Cores secundárias -->
+    <color name="colorSecondary">#E94560</color>
+    <color name="colorSecondaryVariant">#C73652</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+
+    <!-- Superfícies e fundos -->
+    <color name="colorBackground">#F5F5F5</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorOnBackground">#1A1A2E</color>
+    <color name="colorOnSurface">#1A1A2E</color>
+
+    <!-- Cor de perigo — botão Apagar/Limpar -->
+    <color name="colorDanger">#FF5722</color>
+    <color name="colorDangerDark">#E64A19</color>
+
+    <!-- Texto -->
+    <color name="textPrimary">#1A1A2E</color>
+    <color name="textSecondary">#6B6B6B</color>
+    <color name="textHint">#9E9E9E</color>
+
+    <!-- Splash background -->
+    <color name="splashBackground">#1A1A2E</color>
+    <color name="splashSubtitle">#B0BEC5</color>
+</resources>
