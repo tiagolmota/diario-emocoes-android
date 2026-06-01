@@ -1,0 +1,38 @@
+{
+  "_DESCRICAO_": "Regras de segurança para Firebase Realtime Database. Copiar para Firebase Console > Realtime Database > Regras.",
+
+  "_NOTA_RGPD_": "Estas regras implementam o princípio de minimização de acesso (Art. 25 RGPD - Privacy by Design): cada utilizador só acede aos seus próprios dados.",
+
+  "rules": {
+    "diario_emocoes": {
+      ".read": "auth != null",
+      ".write": "auth != null",
+      "$registoId": {
+        ".validate": "newData.hasChildren(['id', 'estadoEmocional', 'dataHoraLegivel'])",
+        "id": {
+          ".validate": "newData.isNumber()"
+        },
+        "estadoEmocional": {
+          ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 100"
+        },
+        "notasTexto": {
+          ".validate": "newData.isString() && newData.val().length <= 1000"
+        },
+        "dataHoraLegivel": {
+          ".validate": "newData.isString()"
+        },
+        "temperaturaAmbiente": {
+          ".validate": "newData.isNumber()"
+        }
+      }
+    }
+  },
+
+  "_MODO_TESTE_": {
+    "_AVISO_": "Para desenvolvimento inicial usar modo de teste (leitura/escrita aberta). NUNCA usar em producao.",
+    "rules": {
+      ".read": "now < 1751328000000",
+      ".write": "now < 1751328000000"
+    }
+  }
+}

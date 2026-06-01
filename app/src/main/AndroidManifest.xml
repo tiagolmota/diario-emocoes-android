@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pt.isla.diarioemocoes">
 
+    <!-- Permissão de internet — obrigatória para Firebase Realtime Database -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Verificar estado da conectividade antes de sincronizar -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -12,10 +17,6 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:fullBackupContent="false">
 
-        <!--
-            SplashActivity: ponto de entrada — verifica consentimento RGPD
-            e redireciona para ConsentimentoActivity ou MainActivity.
-        -->
         <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
@@ -27,26 +28,17 @@
             </intent-filter>
         </activity>
 
-        <!-- MainActivity: actividade principal da app -->
         <activity
             android:name=".ui.MainActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 
-        <!--
-            ConsentimentoActivity: ecrã RGPD obrigatório no primeiro arranque.
-            Não pode ser iniciada externamente (exported="false").
-        -->
         <activity
             android:name=".rgpd.ConsentimentoActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.DiarioEmocoes" />
 
-        <!--
-            PrivacidadeActivity: painel de direitos RGPD (Art. 15.º, 17.º, 7.º §3).
-            Acessível via menu da ActionBar.
-        -->
         <activity
             android:name=".rgpd.PrivacidadeActivity"
             android:exported="false"

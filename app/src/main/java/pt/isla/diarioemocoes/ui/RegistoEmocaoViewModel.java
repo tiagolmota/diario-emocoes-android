@@ -12,27 +12,37 @@ import java.util.Locale;
 
 import pt.isla.diarioemocoes.data.RegistoEmocao;
 import pt.isla.diarioemocoes.data.RegistoEmocaoRepository;
+import pt.isla.diarioemocoes.remote.SincronizacaoService;
 
 /**
  * VIEWMODEL: RegistoEmocaoViewModel
- * Actualizado com apagarTodosOsRegistos() e totalRegistos para RGPD.
+ *
+ * Passo 1: Herda AndroidViewModel para acesso seguro ao ApplicationContext.
+ * Passo 2: Orquestra CRUD local (Room) + sincronização remota (Firebase).
+ * Passo 3: Expõe LiveData para observação reactiva pela MainActivity.
  */
 public class RegistoEmocaoViewModel extends AndroidViewModel {
 
     private final RegistoEmocaoRepository repository;
+    private final SincronizacaoService sincronizacaoService;
+
     public final LiveData<List<RegistoEmocao>> todosOsRegistos;
     public final LiveData<Integer> totalRegistos;
 
     public RegistoEmocaoViewModel(@NonNull Application application) {
         super(application);
-        repository      = new RegistoEmocaoRepository(application);
-        todosOsRegistos = repository.getTodosOsRegistos();
-        totalRegistos   = repository.getTotalRegistos();
+        repository           = new RegistoEmocaoRepository(application);
+        sincronizacaoService = new SincronizacaoService(application);
+        todosOsRegistos      = repository.getTodosOsRegistos();
+        totalRegistos        = repository.getTotalRegistos();
     }
 
+    // =========================================================================
+    // C — CREATE
+    // =========================================================================
     /**
-     * Guardar registo com validação integrada no Repository.
-     * Retorna true se guardou, false se validação falhou.
+     * Passo 4: Guardar novo registo — Room primeiro, Firebase a seguir.
+     * Retorna true se validação passou e Room persistiu, false caso contrário.
      */
     public boolean guardarRegisto(String estadoEmocional, String notas, double temperatura) {
         long timestampAtual = System.currentTimeMillis();
@@ -42,18 +52,47 @@ public class RegistoEmocaoViewModel extends AndroidViewModel {
         RegistoEmocao novoRegisto = new RegistoEmocao(
                 timestampAtual, dataFormatada, estadoEmocional, temperatura, notas
         );
-        return repository.inserir(novoRegisto);
+
+        boolean inserido = repository.inserir(novoRegisto);
+        if (inserido) {
+            // Sincronizar com Firebase em background — não bloqueia a UI
+            sincronizacaoService.sincronizarRegisto(novoRegisto);
+        }
+        return inserido;
     }
 
+    // =========================================================================
+    // U — UPDATE
+    // =========================================================================
+    /**
+     * Passo 5: Actualizar registo existente — Room + Firebase.
+     */
+    public boolean actualizarRegisto(RegistoEmocao registo) {
+        boolean actualizado = repository.actualizar(registo);
+        if (actualizado) {
+            sincronizacaoService.sincronizarRegisto(registo);
+        }
+        return actualizado;
+    }
+
+    // =========================================================================
+    // D — DELETE
+    // =========================================================================
+    /** Passo 6: Apagar registo único — Room + Firebase. */
     public void apagarRegisto(long id) {
         repository.apagar(id);
+        sincronizacaoService.apagarRegistoRemoto(id);
     }
 
     /**
-     * RGPD Art. 17.º — Direito de Eliminação.
-     * Chamado pela PrivacidadeActivity e disponível via Action Bar.
+     * Passo 7: Apagar todos os dados — RGPD Art. 17.º.
+     * Room local + Firebase remoto.
      */
     public void apagarTodosOsRegistos() {
         repository.apagarTudo();
+        sincronizacaoService.apagarTudoRemoto(new pt.isla.diarioemocoes.remote.FirebaseRepository.FirebaseCallback() {
+            @Override public void onSucesso() { }
+            @Override public void onErro(String msg) { }
+        });
     }
 }

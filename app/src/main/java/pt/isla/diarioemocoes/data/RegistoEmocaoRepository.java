@@ -12,11 +12,9 @@ import pt.isla.diarioemocoes.security.ValidadorDados;
 /**
  * REPOSITÓRIO: RegistoEmocaoRepository
  *
- * Actualizado com:
- * - Validação de dados antes de persistir (OWASP + RGPD Art. 5.º §1.d)
- * - Sanitização de input (segurança)
- * - apagarTodosOsRegistos() para RGPD Art. 17.º
- * - contarRegistos() para painel de privacidade Art. 15.º
+ * Mediador entre ViewModel e fontes de dados.
+ * CRUD completo: inserir, obter, actualizar, apagar.
+ * Todas as operações de escrita executam em background thread via ExecutorService.
  */
 public class RegistoEmocaoRepository {
 
@@ -28,52 +26,42 @@ public class RegistoEmocaoRepository {
             Executors.newSingleThreadExecutor();
 
     public RegistoEmocaoRepository(Application application) {
-        AppDatabase db = AppDatabase.getDatabase(application);
+        AppDatabase db  = AppDatabase.getDatabase(application);
         registoDao      = db.registoDao();
         todosOsRegistos = registoDao.obterTodosOsRegistos();
         totalRegistos   = registoDao.contarRegistos();
     }
 
-    public LiveData<List<RegistoEmocao>> getTodosOsRegistos() {
-        return todosOsRegistos;
-    }
+    // R — READ
+    public LiveData<List<RegistoEmocao>> getTodosOsRegistos() { return todosOsRegistos; }
+    public LiveData<Integer> getTotalRegistos()               { return totalRegistos; }
+    public LiveData<RegistoEmocao> getRegistoPorId(long id)  { return registoDao.obterRegistoPorId(id); }
 
-    public LiveData<Integer> getTotalRegistos() {
-        return totalRegistos;
-    }
-
-    /**
-     * Passo 1: Inserção com validação e sanitização prévia.
-     * RGPD Art. 5.º §1.d — exactidão: só armazenar dados válidos.
-     * Retorna false se a validação falhar, true se inseriu com sucesso.
-     */
+    // C — CREATE (com validação)
     public boolean inserir(RegistoEmocao registo) {
-        // Sanitizar antes de validar
         String estadoSanitizado = ValidadorDados.sanitizar(registo.getEstadoEmocional());
         String notasSanitizadas = ValidadorDados.sanitizar(registo.getNotasTexto());
-
-        ValidadorDados.ResultadoValidacao vEstado = ValidadorDados.validarEstado(estadoSanitizado);
-        ValidadorDados.ResultadoValidacao vNotas  = ValidadorDados.validarNotas(notasSanitizadas);
-
-        if (!vEstado.valido || !vNotas.valido) return false;
-
-        // Actualizar com valores sanitizados antes de persistir
+        if (!ValidadorDados.validarEstado(estadoSanitizado).valido) return false;
+        if (!ValidadorDados.validarNotas(notasSanitizadas).valido)  return false;
         registo.setEstadoEmocional(estadoSanitizado);
         registo.setNotasTexto(notasSanitizadas);
-
         databaseWriteExecutor.execute(() -> registoDao.inserirRegisto(registo));
         return true;
     }
 
-    public void apagar(long id) {
-        databaseWriteExecutor.execute(() -> registoDao.apagarRegistoPorId(id));
+    // U — UPDATE (com validação)
+    public boolean actualizar(RegistoEmocao registo) {
+        String estadoSanitizado = ValidadorDados.sanitizar(registo.getEstadoEmocional());
+        String notasSanitizadas = ValidadorDados.sanitizar(registo.getNotasTexto());
+        if (!ValidadorDados.validarEstado(estadoSanitizado).valido) return false;
+        if (!ValidadorDados.validarNotas(notasSanitizadas).valido)  return false;
+        registo.setEstadoEmocional(estadoSanitizado);
+        registo.setNotasTexto(notasSanitizadas);
+        databaseWriteExecutor.execute(() -> registoDao.actualizarRegisto(registo));
+        return true;
     }
 
-    /**
-     * Passo 2: Eliminação total — RGPD Art. 17.º.
-     * Executado em background thread; a UI observa via LiveData.
-     */
-    public void apagarTudo() {
-        databaseWriteExecutor.execute(() -> registoDao.apagarTodosOsRegistos());
-    }
+    // D — DELETE
+    public void apagar(long id)  { databaseWriteExecutor.execute(() -> registoDao.apagarRegistoPorId(id)); }
+    public void apagarTudo()     { databaseWriteExecutor.execute(() -> registoDao.apagarTodosOsRegistos()); }
 }

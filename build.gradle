@@ -1,9 +1,3 @@
-// build.gradle (Project: diario-emocoes-android)
-// ============================================================================
-// Ficheiro de build raiz — define plugins disponíveis para todos os módulos.
-// NÃO adicionar dependências aqui; vão no build.gradle do módulo app/.
-// ============================================================================
-
 buildscript {
     repositories {
         google()
@@ -11,7 +5,8 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.2.2'
-        // Nota: sem classpath kotlin — projecto Java puro
+        // Plugin Google Services — obrigatório para Firebase
+        classpath 'com.google.gms:google-services:4.4.1'
     }
 }
 
